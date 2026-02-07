@@ -34,6 +34,10 @@ No upstream source code changes are required for these behaviors.
   - `Ctrl+Alt+F` cycles through a curated set of hacker fonts (installed fonts first).
   - The list is intentionally limited to fonts already present on this Windows setup
     plus other freely-available fonts (no paid fonts in the rotation).
+- Persistence:
+  - The last selected theme/font are saved to a small state file so they survive
+    restarts and crashes: `%USERPROFILE%\\.wezterm-vibe-state.json`.
+  - Delete that file to reset back to defaults.
 
 ## Install
 

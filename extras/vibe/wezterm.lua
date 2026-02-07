@@ -7,6 +7,59 @@ local paste_undo_fallback_chars = 50000
 
 -- Theme/font: "hacker-ish", pure black background.
 -- Use a curated set of built-in schemes and provide a hotkey to cycle them.
+
+-- Persist the last selected theme/font so it survives restart/crash.
+local state_path = wezterm.config_dir .. '/.wezterm-vibe-state.json'
+
+local function read_file(path)
+  local f = io.open(path, 'rb')
+  if not f then
+    return nil
+  end
+  local s = f:read '*a'
+  f:close()
+  return s
+end
+
+local function write_file_atomic(path, data)
+  local tmp = path .. '.tmp'
+  local f = io.open(tmp, 'wb')
+  if not f then
+    return false
+  end
+  f:write(data)
+  f:close()
+
+  -- On Windows, rename over an existing file can fail, so remove first.
+  pcall(os.remove, path)
+  local ok = os.rename(tmp, path)
+  if not ok then
+    pcall(os.remove, tmp)
+    return false
+  end
+  return true
+end
+
+local function load_state()
+  local s = read_file(state_path)
+  if not s or s == '' then
+    return {}
+  end
+  local ok, decoded = pcall(wezterm.json_parse, s)
+  if ok and type(decoded) == 'table' then
+    return decoded
+  end
+  return {}
+end
+
+local function save_state(st)
+  local ok, json = pcall(wezterm.json_encode, st)
+  if not ok or type(json) ~= 'string' then
+    return
+  end
+  pcall(write_file_atomic, state_path, json)
+end
+
 local builtin_schemes = wezterm.color.get_builtin_schemes()
 local hacker_scheme_candidates = {
   -- Strong "hacker terminal" vibes
@@ -33,7 +86,13 @@ if #hacker_schemes == 0 then
   hacker_schemes = { 'Builtin Dark' }
 end
 
+local persisted = load_state()
+
 local function pick_default_scheme()
+  local name = persisted and persisted.color_scheme
+  if type(name) == 'string' and builtin_schemes[name] then
+    return name
+  end
   -- First entry is the default.
   return hacker_schemes[1]
 end
@@ -68,6 +127,31 @@ local function make_hacker_font(primary)
     'Symbols Nerd Font Mono',
     'Noto Color Emoji',
   }
+end
+
+local function same_primary_font(a, b)
+  if type(a) ~= type(b) then
+    return false
+  end
+  if type(a) == 'string' then
+    return a == b
+  end
+  if type(a) == 'table' then
+    return a.family == b.family and a.weight == b.weight and a.style == b.style and a.stretch == b.stretch
+  end
+  return false
+end
+
+local function pick_default_font_primary()
+  local want = persisted and persisted.font_primary
+  if want then
+    for _, cand in ipairs(hacker_font_candidates) do
+      if same_primary_font(cand, want) then
+        return cand
+      end
+    end
+  end
+  return hacker_font_candidates[1]
 end
 
 local font_idx_by_window_id = {}
@@ -243,6 +327,9 @@ local cycle_theme = wezterm.action_callback(function(window, pane)
   overrides.colors = overrides.colors or {}
   overrides.colors.background = '#000000'
   window:set_config_overrides(overrides)
+
+  persisted.color_scheme = overrides.color_scheme
+  save_state(persisted)
 end)
 
 local cycle_font = wezterm.action_callback(function(window, pane)
@@ -252,8 +339,12 @@ local cycle_font = wezterm.action_callback(function(window, pane)
   font_idx_by_window_id[id] = idx
 
   local overrides = window:get_config_overrides() or {}
-  overrides.font = make_hacker_font(hacker_font_candidates[idx])
+  local primary = hacker_font_candidates[idx]
+  overrides.font = make_hacker_font(primary)
   window:set_config_overrides(overrides)
+
+  persisted.font_primary = primary
+  save_state(persisted)
 end)
 
 local config = {
@@ -265,7 +356,7 @@ local config = {
   disable_default_key_bindings = true,
 
   -- Font: pick a crisp "hacker" mono with sensible fallbacks.
-  font = make_hacker_font(hacker_font_candidates[1]),
+  font = make_hacker_font(pick_default_font_primary()),
   -- Disable ligatures for a more "terminal" look.
   harfbuzz_features = { 'calt=0', 'clig=0', 'liga=0' },
 
