@@ -5,6 +5,39 @@ local paste_undo_window_seconds = 30
 local paste_undo_max_chars = 200000
 local paste_undo_fallback_chars = 50000
 
+-- Theme/font: "hacker-ish", pure black background.
+-- Use a curated set of built-in schemes and provide a hotkey to cycle them.
+local builtin_schemes = wezterm.color.get_builtin_schemes()
+local hacker_scheme_candidates = {
+  -- Strong "hacker terminal" vibes
+  'hardhacker',
+  'Matrix (terminal.sexy)',
+  'Blue Matrix',
+  'Cyberdyne',
+  'Cobalt Neon',
+
+  -- Popular dark dev themes
+  'Dracula (Official)',
+  'Gruvbox Dark (Gogh)',
+  'Nord (Gogh)',
+  'Night Owl (Gogh)',
+}
+
+local hacker_schemes = {}
+for _, name in ipairs(hacker_scheme_candidates) do
+  if builtin_schemes[name] then
+    table.insert(hacker_schemes, name)
+  end
+end
+if #hacker_schemes == 0 then
+  hacker_schemes = { 'Builtin Dark' }
+end
+
+local function pick_default_scheme()
+  -- First entry is the default.
+  return hacker_schemes[1]
+end
+
 -- Smart paste for Windows:
 -- If the clipboard currently holds an image, forward Ctrl+V into the running program
 -- (so apps like the Codex TUI can handle image paste). Otherwise, paste text normally.
@@ -106,7 +139,6 @@ local smart_paste = wezterm.action_callback(function(window, pane)
   local text = get_clipboard_text()
   if text and text ~= '' then
     if char_len(text) > paste_undo_max_chars then
-      window:toast_notification('wezterm', 'Paste too large to record for undo', nil, 4000)
       return
     end
     table.insert(st.undo, {
@@ -132,7 +164,6 @@ local undo_paste = wezterm.action_callback(function(window, pane)
   -- Otherwise, fall back to deleting a large number of characters to quickly
   -- clear the pasted input (best-effort).
   local n = entry and entry.len or paste_undo_fallback_chars
-  window:toast_notification('wezterm', 'Undo paste', nil, 1200)
   send_back_delete(pane, n)
 
   if entry then
@@ -145,7 +176,6 @@ local redo_paste = wezterm.action_callback(function(window, pane)
   local st = state_for_pane(pane)
   local entry = st.redo[#st.redo]
   if not entry then
-    window:toast_notification('wezterm', 'Nothing to redo', nil, 2000)
     return
   end
 
@@ -155,13 +185,49 @@ local redo_paste = wezterm.action_callback(function(window, pane)
   st.last_paste_s = now_epoch_seconds()
 end)
 
-return {
+local cycle_theme = wezterm.action_callback(function(window, pane)
+  local overrides = window:get_config_overrides() or {}
+  local current = overrides.color_scheme or pick_default_scheme()
+  local idx = 1
+  for i, name in ipairs(hacker_schemes) do
+    if name == current then
+      idx = i
+      break
+    end
+  end
+  local next_name = hacker_schemes[(idx % #hacker_schemes) + 1]
+  overrides.color_scheme = next_name
+  overrides.colors = overrides.colors or {}
+  overrides.colors.background = '#000000'
+  window:set_config_overrides(overrides)
+end)
+
+local config = {
   -- Use PowerShell 7 by default. Command history is a shell feature (PSReadLine),
   -- whereas cmd.exe history is not persisted across sessions by default.
   default_prog = { 'pwsh.exe', '-NoLogo' },
 
   enable_tab_bar = false,
   disable_default_key_bindings = true,
+
+  -- Font: pick a crisp "hacker" mono with sensible fallbacks.
+  font = wezterm.font_with_fallback {
+    { family = 'JetBrains Mono', weight = 'Medium' },
+    'Symbols Nerd Font Mono',
+    'Noto Color Emoji',
+  },
+  -- Disable ligatures for a more "terminal" look.
+  harfbuzz_features = { 'calt=0', 'clig=0', 'liga=0' },
+
+  -- Theme: start with a curated built-in scheme and force pure black background.
+  color_scheme = pick_default_scheme(),
+  colors = {
+    background = '#000000',
+  },
+  window_background_opacity = 1.0,
+  win32_system_backdrop = 'Disable',
+
+  default_cursor_style = 'BlinkingBlock',
 
   keys = {
     -- Copy selection (Ctrl+Shift+C)
@@ -188,6 +254,11 @@ return {
     { key = '0', mods = 'CTRL', action = act.ResetFontSize },
 
     { key = 'F', mods = 'CTRL', action = act.Search { CaseSensitiveString = '' } },
+
+    -- Theme cycling (no OS notifications).
+    { key = 'T', mods = 'CTRL|ALT', action = cycle_theme },
   },
 }
+
+return config
 
