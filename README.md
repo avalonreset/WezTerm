@@ -2,6 +2,13 @@
 
 <img height="128" alt="WezTerm Icon" src="https://raw.githubusercontent.com/wezterm/wezterm/main/assets/icon/wezterm-icon.svg" align="left"> *A GPU-accelerated cross-platform terminal emulator and multiplexer written by <a href="https://github.com/wez">@wez</a> and implemented in <a href="https://www.rust-lang.org/">Rust</a>*
 
+## Fork Notes (Vibe QoL)
+
+This fork adds a Windows-focused "Vibe QoL" config (smart paste, paste-undo, tabless UI, `pwsh` default) implemented via WezTerm's Lua config API.
+
+- See `extras/vibe/README.md`
+- Config file: `extras/vibe/wezterm.lua`
+
 User facing docs and guide at: https://wezterm.org/
 
 ![Screenshot](docs/screenshots/two.png)
