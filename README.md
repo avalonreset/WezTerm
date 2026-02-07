@@ -12,6 +12,7 @@ This fork adds a Windows-focused "Vibe QoL" experience (smart paste, paste-undo,
 - Override: per-user config (`%USERPROFILE%\\.wezterm.lua` or `~/.config/wezterm/wezterm.lua`) still wins
 - Defaults (fresh install): color scheme `Blue Matrix` (pure black background forced)
 - Defaults (fresh install): font `OCR A Extended` (with fallbacks to Cascadia/JetBrains/Consolas)
+- Linux (Pop!_OS/Ubuntu): see `extras/vibe/linux/README.md` for a bootstrap AppImage-based setup
 
 User facing docs and guide at: https://wezterm.org/
 

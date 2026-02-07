@@ -67,7 +67,12 @@ Copy `extras/vibe/wezterm.lua` to your home config path:
 
 - Windows: `%USERPROFILE%\.wezterm.lua`
 
-Then reload WezTerm (`Ctrl+R`) or restart it.
+Then reload WezTerm (`Ctrl+Shift+R`) or restart it.
+
+### Linux (Pop!_OS / Ubuntu) Quick Start
+
+See `extras/vibe/linux/README.md` for a bootstrap script that downloads the
+upstream WezTerm AppImage and runs it pinned to this config.
 
 ## Notes
 
