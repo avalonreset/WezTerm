@@ -30,6 +30,10 @@ No upstream source code changes are required for these behaviors.
 - Theme cycling:
   - `Ctrl+Alt+T` cycles through a curated set of built-in "hacker-ish" themes and
     forces a pure black background.
+- Font cycling:
+  - `Ctrl+Alt+F` cycles through a curated set of hacker fonts (installed fonts first).
+  - If you install additional fonts and uncomment them in the config, they'll be
+    included in the rotation.
 
 ## Install
 

@@ -38,6 +38,49 @@ local function pick_default_scheme()
   return hacker_schemes[1]
 end
 
+-- Font cycling: curated "snob/hacker" fonts.
+--
+-- Notes:
+-- - The first entries are fonts detected on this machine via `wezterm ls-fonts --list-system`.
+-- - The "aspirational" fonts at the bottom require installation; until installed, they'll fall back.
+local hacker_font_candidates = {
+  -- Installed (Windows)
+  { family = 'JetBrains Mono', weight = 'Medium' },
+  'Cascadia Mono',
+  'Cascadia Code',
+  'IBM Plex Mono',
+  'Source Code Pro',
+  'Roboto Mono',
+  'Ubuntu Mono',
+  'Consolas',
+
+  -- Aspirational / clout (install to enable)
+  -- 'Berkeley Mono',
+  -- 'Iosevka',
+  -- 'Input Mono',
+  -- 'PragmataPro',
+  -- 'Operator Mono',
+}
+
+local function make_hacker_font(primary)
+  return wezterm.font_with_fallback {
+    primary,
+    'Symbols Nerd Font Mono',
+    'Noto Color Emoji',
+  }
+end
+
+local font_idx_by_window_id = {}
+local function get_font_idx(window)
+  local id = window:window_id()
+  local idx = font_idx_by_window_id[id]
+  if not idx then
+    idx = 1
+    font_idx_by_window_id[id] = idx
+  end
+  return idx
+end
+
 -- Smart paste for Windows:
 -- If the clipboard currently holds an image, forward Ctrl+V into the running program
 -- (so apps like the Codex TUI can handle image paste). Otherwise, paste text normally.
@@ -202,6 +245,17 @@ local cycle_theme = wezterm.action_callback(function(window, pane)
   window:set_config_overrides(overrides)
 end)
 
+local cycle_font = wezterm.action_callback(function(window, pane)
+  local id = window:window_id()
+  local idx = get_font_idx(window)
+  idx = (idx % #hacker_font_candidates) + 1
+  font_idx_by_window_id[id] = idx
+
+  local overrides = window:get_config_overrides() or {}
+  overrides.font = make_hacker_font(hacker_font_candidates[idx])
+  window:set_config_overrides(overrides)
+end)
+
 local config = {
   -- Use PowerShell 7 by default. Command history is a shell feature (PSReadLine),
   -- whereas cmd.exe history is not persisted across sessions by default.
@@ -211,11 +265,7 @@ local config = {
   disable_default_key_bindings = true,
 
   -- Font: pick a crisp "hacker" mono with sensible fallbacks.
-  font = wezterm.font_with_fallback {
-    { family = 'JetBrains Mono', weight = 'Medium' },
-    'Symbols Nerd Font Mono',
-    'Noto Color Emoji',
-  },
+  font = make_hacker_font(hacker_font_candidates[1]),
   -- Disable ligatures for a more "terminal" look.
   harfbuzz_features = { 'calt=0', 'clig=0', 'liga=0' },
 
@@ -257,6 +307,9 @@ local config = {
 
     -- Theme cycling (no OS notifications).
     { key = 'T', mods = 'CTRL|ALT', action = cycle_theme },
+
+    -- Font cycling (no OS notifications).
+    { key = 'F', mods = 'CTRL|ALT', action = cycle_font },
   },
 }
 
