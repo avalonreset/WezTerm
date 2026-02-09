@@ -19,6 +19,10 @@ No upstream source code changes are required for these behaviors.
 - Minimal UI:
   - Tab bar disabled (`enable_tab_bar = false`)
   - Default shell is PowerShell 7 (`pwsh.exe`) for proper per-user history
+- Smart copy on `Ctrl+C`:
+  - If there is an active selection, `Ctrl+C` copies it (and clears the selection).
+  - Otherwise `Ctrl+C` is passed through to the running program (interrupt/SIGINT behavior).
+  - `Ctrl+Alt+C` always passes through `Ctrl+C` even if a selection exists.
 - Smart paste on `Ctrl+V`:
   - Windows: `Ctrl+V` is smart paste; if the clipboard contains an image, it
     forwards `Ctrl+V` into the running program (for image-aware TUIs, eg: Codex).

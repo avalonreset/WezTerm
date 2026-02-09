@@ -433,8 +433,21 @@ local function pick_default_window_decorations()
 end
 
 local keys = {
-  -- Copy selection (Ctrl+Shift+C). Don't steal Ctrl+C: users need SIGINT in shells/TUIs.
-  { key = 'C', mods = 'CTRL|SHIFT', action = act.CopyTo 'Clipboard' },
+  -- Ctrl+C: if there is a selection, copy it. Otherwise, send Ctrl+C to the app (SIGINT).
+  -- This avoids the "I tried to copy and it killed my session" footgun.
+  {
+    key = 'c',
+    mods = 'CTRL',
+    action = wezterm.action_callback(function(window, pane)
+      local has_selection = window:get_selection_text_for_pane(pane) ~= ''
+      if has_selection then
+        window:perform_action(act.CopyTo 'ClipboardAndPrimarySelection', pane)
+        window:perform_action(act.ClearSelection, pane)
+      else
+        window:perform_action(act.SendKey { key = 'c', mods = 'CTRL' }, pane)
+      end
+    end),
+  },
 
   -- Undo/redo the most recent paste (best-effort).
   -- Ctrl+Z is `key='z', mods='CTRL'` and Ctrl+Shift+Z is `key='Z', mods='CTRL|SHIFT'`.
@@ -482,6 +495,10 @@ local keys = {
 
   -- Easier window move when borderless (titlebar hidden).
   { key = 'd', mods = 'CTRL|ALT', action = act.StartWindowDrag },
+
+  -- Always send Ctrl+C, even if there is a selection.
+  -- Useful when an accidental selection would otherwise cause Ctrl+C to copy instead of interrupt.
+  { key = 'c', mods = 'CTRL|ALT', action = act.SendKey { key = 'c', mods = 'CTRL' } },
 }
 
 -- Clipboard paste keybindings:
