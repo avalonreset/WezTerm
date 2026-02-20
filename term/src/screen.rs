@@ -238,8 +238,12 @@ impl Screen {
             if self.allow_scrollback && !is_conpty {
                 self.rewrap_lines(physical_cols, physical_rows, cursor.x, cursor_phys, seqno)
             } else {
+                // Full-screen apps in the alternate screen expect the visible
+                // cell matrix to match the new width immediately on shrink.
+                // Keep the ConPTY "preserve line content" behavior scoped to
+                // the primary screen where scrollback reflow is relevant.
                 for line in &mut self.lines {
-                    if is_conpty {
+                    if is_conpty && self.allow_scrollback {
                         // Preserve full line content on ConPTY when changing width.
                         // Reflow metadata can be unreliable there, but truncating
                         // here causes irreversible data loss when narrowing.
@@ -252,7 +256,17 @@ impl Screen {
                         line.update_last_change_seqno(seqno);
                     }
                 }
-                (cursor.x, cursor_phys)
+
+                let cursor_x = if !self.allow_scrollback
+                    && physical_cols < self.physical_cols
+                    && cursor.x >= physical_cols
+                {
+                    physical_cols.saturating_sub(1)
+                } else {
+                    cursor.x
+                };
+
+                (cursor_x, cursor_phys)
             }
         } else {
             (cursor.x, cursor_phys)

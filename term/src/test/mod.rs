@@ -1097,6 +1097,49 @@ fn test_resize_conpty_shrink_and_grow_preserves_content() {
 }
 
 #[test]
+fn test_resize_alt_screen_conpty_shrink_and_grow_stable() {
+    let num_lines = 4;
+    let num_cols = 20;
+
+    let mut term = TestTerm::new(num_lines, num_cols, 10);
+    term.enable_conpty_quirks();
+    term.set_mode("?1049", true);
+    term.print("some long long text");
+    assert_visible_contents(
+        &term,
+        file!(),
+        line!(),
+        &["some long long text", "", "", ""],
+    );
+
+    term.resize(TerminalSize {
+        rows: num_lines,
+        cols: num_cols - 2,
+        ..Default::default()
+    });
+    assert_visible_contents(
+        &term,
+        file!(),
+        line!(),
+        &["some long long tex", "", "", ""],
+    );
+    term.assert_cursor_pos(num_cols - 3, 0, None, None);
+
+    term.resize(TerminalSize {
+        rows: num_lines,
+        cols: num_cols,
+        ..Default::default()
+    });
+    assert_visible_contents(
+        &term,
+        file!(),
+        line!(),
+        &["some long long tex", "", "", ""],
+    );
+    term.assert_cursor_pos(num_cols - 3, 0, None, None);
+}
+
+#[test]
 fn test_resize_wrap_issue_971() {
     const LINES: usize = 4;
     let mut term = TestTerm::new(LINES, 4, 0);
