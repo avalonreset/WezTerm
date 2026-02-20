@@ -6,17 +6,12 @@ BenjaminTerm keeps upstream WezTerm power, then adds quality-of-life workflows f
 smart copy/paste behavior, paste undo, font/theme cycling, borderless mode, persistent preferences, and now
 click-to-focus Windows notifications when your coding tool asks for input.
 
-<p align="center">
-  <img src="assets/icon/terminal.png" alt="BenjaminTerm BEN logo" width="220" />
-</p>
-
 ```text
-██████╗ ███████╗███╗   ██╗     ████████╗███████╗██████╗ ███╗   ███╗
-██╔══██╗██╔════╝████╗  ██║     ╚══██╔══╝██╔════╝██╔══██╗████╗ ████║
-██████╔╝█████╗  ██╔██╗ ██║        ██║   █████╗  ██████╔╝██╔████╔██║
-██╔══██╗██╔══╝  ██║╚██╗██║        ██║   ██╔══╝  ██╔══██╗██║╚██╔╝██║
-██████╔╝███████╗██║ ╚████║        ██║   ███████╗██║  ██║██║ ╚═╝ ██║
-╚═════╝ ╚══════╝╚═╝  ╚═══╝        ╚═╝   ╚══════╝╚═╝  ╚═╝╚═╝     ╚═╝
+████   █████  █   █    ███   ███   █   █  █████  █   █  █████  █████  ████   █   █
+█   █  █      ██  █     █   █   █  ██ ██    █    ██  █    █    █      █   █  ██ ██
+████   ████   █ █ █     █   █████  █ █ █    █    █ █ █    █    ████   ████   █ █ █
+█   █  █      █  ██  █  █   █   █  █   █    █    █  ██    █    █      █  █   █   █
+████   █████  █   █   ██    █   █  █   █  █████  █   █    █    █████  █   █  █   █
 ```
 
 ## Why BenjaminTerm
@@ -110,5 +105,9 @@ BenjaminTerm is a custom distribution/fork built on top of WezTerm.
 
 - Upstream project: https://github.com/wez/wezterm
 - Upstream docs: https://wezterm.org/
+
+## Brand Icon
+
+<img src="assets/icon/terminal-readme-icon.png" alt="BenjaminTerm icon" width="164" />
 
 WezTerm is MIT licensed; see `LICENSE.md`.
