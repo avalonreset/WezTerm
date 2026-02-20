@@ -11,6 +11,8 @@ This release includes:
 - Linux friend-ready bootstrap flow with `benjaminterm` launcher
 - Curated hotkeys and defaults documented for quick onboarding
 - New custom BEN icon theme (blood-red square mark) across runtime + installer
+- Windows co-install safety:
+  - Separate AppUserModelID + executable names so BenjaminTerm and WezTerm can run/pin side-by-side without taskbar/icon collisions
 
 ## Why This Release Matters
 

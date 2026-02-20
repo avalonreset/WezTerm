@@ -47,6 +47,8 @@ click-to-focus Windows notifications when your coding tool asks for input.
   - Windows toast click now focuses the exact terminal pane/tab/window that raised it.
 - Custom brand icon:
   - New square blood-red `BEN` icon applied to app/runtime/installer branding.
+- Side-by-side install support:
+  - BenjaminTerm now uses its own Windows app identity and executable names, so it can coexist with WezTerm and be pinned separately in the taskbar.
 
 Full config docs: `extras/vibe/README.md`
 

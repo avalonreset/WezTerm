@@ -6,7 +6,7 @@
 ;#define MyAppVersion "1.5"
 #define MyAppPublisher "BenjaminTerm Contributors"
 #define MyAppURL "https://github.com/avalonreset/BenjaminTerm"
-#define MyAppExeName "wezterm-gui.exe"
+#define MyAppExeName "benjaminterm-gui.exe"
 
 [Setup]
 AppId={{9756A36E-1CE2-4B7A-BBB1-C5F73A625336}
@@ -43,11 +43,11 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "..\target\release\wezterm.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\target\release\wezterm-gui.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\target\release\wezterm-mux-server.exe"; DestDir: "{app}"; Flags: ignoreversion
-; Bundled default config for the Vibe QoL distro (users can override in %USERPROFILE%\.wezterm.lua)
-Source: "..\extras\vibe\wezterm.lua"; DestDir: "{app}"; DestName: "wezterm.lua"; Flags: ignoreversion
+Source: "..\target\release\wezterm.exe"; DestDir: "{app}"; DestName: "benjaminterm.exe"; Flags: ignoreversion
+Source: "..\target\release\wezterm-gui.exe"; DestDir: "{app}"; DestName: "benjaminterm-gui.exe"; Flags: ignoreversion
+Source: "..\target\release\wezterm-mux-server.exe"; DestDir: "{app}"; DestName: "benjaminterm-mux-server.exe"; Flags: ignoreversion
+; Bundled default config for BenjaminTerm (kept separate from .wezterm.lua by default loading rules)
+Source: "..\extras\vibe\wezterm.lua"; DestDir: "{app}"; DestName: "benjaminterm.lua"; Flags: ignoreversion
 Source: "..\target\release\mesa\opengl32.dll"; DestDir: "{app}\mesa"; Flags: ignoreversion
 Source: "..\target\release\libEGL.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\target\release\libGLESv2.dll"; DestDir: "{app}"; Flags: ignoreversion
