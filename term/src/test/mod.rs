@@ -1023,6 +1023,80 @@ fn test_resize_wrap() {
 }
 
 #[test]
+fn test_resize_wrap_conpty_no_reflow() {
+    const LINES: usize = 8;
+    let mut term = TestTerm::new(LINES, 4, 0);
+    term.enable_conpty_quirks();
+    term.print("111\r\n2222aa\r\n333\r\n");
+    assert_visible_contents(
+        &term,
+        file!(),
+        line!(),
+        &["111", "2222", "aa", "333", "", "", "", ""],
+    );
+
+    // ConPTY wrapped-line metadata can be unreliable, so avoid reflowing
+    // scrollback content on width changes.
+    term.resize(TerminalSize {
+        rows: LINES,
+        cols: 5,
+        ..Default::default()
+    });
+    assert_visible_contents(
+        &term,
+        file!(),
+        line!(),
+        &["111", "2222", "aa", "333", "", "", "", ""],
+    );
+
+    term.resize(TerminalSize {
+        rows: LINES,
+        cols: 6,
+        ..Default::default()
+    });
+    assert_visible_contents(
+        &term,
+        file!(),
+        line!(),
+        &["111", "2222", "aa", "333", "", "", "", ""],
+    );
+}
+
+#[test]
+fn test_resize_conpty_shrink_and_grow_preserves_content() {
+    let num_lines = 4;
+    let num_cols = 20;
+
+    let mut term = TestTerm::new(num_lines, num_cols, 0);
+    term.enable_conpty_quirks();
+    term.print("some long long text");
+    assert_visible_contents(
+        &term,
+        file!(),
+        line!(),
+        &["some long long text", "", "", ""],
+    );
+
+    term.resize(TerminalSize {
+        rows: num_lines,
+        cols: num_cols - 2,
+        ..Default::default()
+    });
+
+    term.resize(TerminalSize {
+        rows: num_lines,
+        cols: num_cols,
+        ..Default::default()
+    });
+    assert_visible_contents(
+        &term,
+        file!(),
+        line!(),
+        &["some long long text", "", "", ""],
+    );
+}
+
+#[test]
 fn test_resize_wrap_issue_971() {
     const LINES: usize = 4;
     let mut term = TestTerm::new(LINES, 4, 0);

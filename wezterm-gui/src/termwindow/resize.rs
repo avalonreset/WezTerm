@@ -290,7 +290,21 @@ impl super::TermWindow {
 
         log::trace!("apply_dimensions computed size {:?}, dims {:?}", size, dims);
 
+        let layout_changed =
+            self.terminal_size.rows != size.rows || self.terminal_size.cols != size.cols;
         self.terminal_size = size;
+
+        if layout_changed {
+            // Reshaping to a different rows/cols grid can change wrapping and
+            // line-to-quad mapping for on-screen content. Flush render caches so
+            // we don't reuse stale line geometry from the previous layout.
+            self.shape_generation += 1;
+            self.shape_cache.borrow_mut().clear();
+            self.line_to_ele_shape_cache.borrow_mut().clear();
+            self.line_state_cache.borrow_mut().clear();
+            self.line_quad_cache.borrow_mut().clear();
+            window.invalidate();
+        }
 
         let mux = Mux::get();
         if let Some(window) = mux.get_window(self.mux_window_id) {

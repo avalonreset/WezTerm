@@ -230,11 +230,21 @@ impl Screen {
             // We only do this for the primary, and not for the alternate
             // screen (hence the check for allow_scrollback), to avoid
             // conflicting screen updates with full screen apps.
-            if self.allow_scrollback {
+            //
+            // On Windows ConPTY, wrapped-line metadata is not consistently
+            // reliable, which can lead to duplicated/jumbled lines when we
+            // attempt to reflow the scrollback on a narrow resize.
+            // Prefer simple width adjustment there instead of rewrap.
+            if self.allow_scrollback && !is_conpty {
                 self.rewrap_lines(physical_cols, physical_rows, cursor.x, cursor_phys, seqno)
             } else {
                 for line in &mut self.lines {
-                    if physical_cols < self.physical_cols {
+                    if is_conpty {
+                        // Preserve full line content on ConPTY when changing width.
+                        // Reflow metadata can be unreliable there, but truncating
+                        // here causes irreversible data loss when narrowing.
+                        line.update_last_change_seqno(seqno);
+                    } else if physical_cols < self.physical_cols {
                         // Do a simple prune of the lines instead
                         line.resize(physical_cols, seqno);
                     } else {
