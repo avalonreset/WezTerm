@@ -21,7 +21,7 @@ AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
 DefaultDirName={autopf}\{#MyAppName}
 DisableProgramGroupPage=yes
-;LicenseFile=..\LICENSE.md
+LicenseFile=..\LICENSE.md
 ; Remove the following line to run in administrative install mode (install for all users.)
 ;PrivilegesRequired=lowest
 ;PrivilegesRequiredOverridesAllowed=dialog
@@ -48,6 +48,14 @@ Source: "..\target\release\wezterm-gui.exe"; DestDir: "{app}"; DestName: "benjam
 Source: "..\target\release\wezterm-mux-server.exe"; DestDir: "{app}"; DestName: "benjaminterm-mux-server.exe"; Flags: ignoreversion
 ; Bundled default config for BenjaminTerm (kept separate from .wezterm.lua by default loading rules)
 Source: "..\extras\vibe\wezterm.lua"; DestDir: "{app}"; DestName: "benjaminterm.lua"; Flags: ignoreversion
+Source: "..\LICENSE.md"; DestDir: "{app}"; DestName: "LICENSE.txt"; Flags: ignoreversion
+Source: "..\licenses\README.md"; DestDir: "{app}\licenses"; Flags: ignoreversion
+Source: "..\licenses\ANGLE.md"; DestDir: "{app}\licenses"; Flags: ignoreversion
+Source: "..\licenses\THIRD_PARTY_NOTICES.md"; DestDir: "{app}\licenses"; Flags: ignoreversion
+Source: "..\assets\fonts\LICENSE_OFL.txt"; DestDir: "{app}\licenses"; Flags: ignoreversion
+Source: "..\assets\fonts\LICENSE_POWERLINE_EXTRA.txt"; DestDir: "{app}\licenses"; Flags: ignoreversion
+Source: "..\assets\windows\conhost\README.md"; DestDir: "{app}\licenses"; DestName: "MICROSOFT_CONHOST_NOTICE.md"; Flags: ignoreversion
+Source: "..\assets\windows\mesa\README.md"; DestDir: "{app}\licenses"; DestName: "MESA_NOTICE.md"; Flags: ignoreversion
 Source: "..\target\release\mesa\opengl32.dll"; DestDir: "{app}\mesa"; Flags: ignoreversion
 Source: "..\target\release\libEGL.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\target\release\libGLESv2.dll"; DestDir: "{app}"; Flags: ignoreversion

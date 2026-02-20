@@ -14,9 +14,9 @@ cargo check -p wezterm-gui --quiet
 ## 2. Confirm Key Behaviors
 
 - Windows toast click focuses originating terminal window/pane.
-- Theme cycle works: `Ctrl+Alt+T`.
-- Font cycle works: `Ctrl+Alt+F`.
-- Borderless toggle works: `Ctrl+Alt+B`.
+- Theme cycle works: `Ctrl+Alt+Shift+T`.
+- Font cycle works: `Ctrl+Alt+Shift+F`.
+- Borderless toggle works: `Ctrl+Alt+Shift+B`.
 - Linux bootstrap script installs `benjaminterm` command.
 
 ## 3. Build Artifacts
@@ -34,6 +34,19 @@ cargo build --release -p wezterm-gui -p wezterm
 ```powershell
 iscc ci/windows-installer.iss
 ```
+
+### Compliance Pack Check (Windows Artifacts)
+
+Confirm installer/zip artifacts include:
+
+- `LICENSE.txt`
+- `licenses/README.md`
+- `licenses/THIRD_PARTY_NOTICES.md`
+- `licenses/ANGLE.md`
+- `licenses/LICENSE_OFL.txt`
+- `licenses/LICENSE_POWERLINE_EXTRA.txt`
+- `licenses/MICROSOFT_CONHOST_NOTICE.md`
+- `licenses/MESA_NOTICE.md`
 
 ### Linux (Friend Distribution)
 

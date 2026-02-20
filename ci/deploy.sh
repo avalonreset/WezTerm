@@ -124,6 +124,16 @@ case $OSTYPE in
     # Bundle the Vibe QoL default config next to the executable (Windows also
     # checks for wezterm.lua in the executable directory).
     cp extras/vibe/wezterm.lua $zipdir/wezterm.lua
+    cp LICENSE.md $zipdir/LICENSE.txt
+    mkdir -p $zipdir/licenses
+    cp licenses/README.md \
+      licenses/ANGLE.md \
+      licenses/THIRD_PARTY_NOTICES.md \
+      assets/fonts/LICENSE_OFL.txt \
+      assets/fonts/LICENSE_POWERLINE_EXTRA.txt \
+      $zipdir/licenses
+    cp assets/windows/conhost/README.md $zipdir/licenses/MICROSOFT_CONHOST_NOTICE.md
+    cp assets/windows/mesa/README.md $zipdir/licenses/MESA_NOTICE.md
     mkdir $zipdir/mesa
     cp $TARGET_DIR/release/mesa/opengl32.dll \
         $zipdir/mesa

@@ -113,6 +113,18 @@ BenjaminTerm is a custom distribution/fork built on top of WezTerm.
 - Upstream project: https://github.com/wez/wezterm
 - Upstream docs: https://wezterm.org/
 
+## License and Notices
+
+- Project license: `LICENSE.md` (MIT).
+- Third-party notice index: `licenses/THIRD_PARTY_NOTICES.md`.
+- ANGLE license text: `licenses/ANGLE.md`.
+- Bundled font license files:
+  - `assets/fonts/LICENSE_OFL.txt`
+  - `assets/fonts/LICENSE_POWERLINE_EXTRA.txt`
+- Windows component attribution notes:
+  - `assets/windows/conhost/README.md`
+  - `assets/windows/mesa/README.md`
+
 <img src="assets/icon/BENJAMINTERM.jpg" alt="BENJAMINTERM" width="110" />
 
 WezTerm is MIT licensed; see `LICENSE.md`.
