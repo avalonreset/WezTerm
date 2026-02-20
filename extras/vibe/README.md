@@ -45,6 +45,8 @@ This folder contains the BenjaminTerm quality-of-life config layer:
 | Toggle borderless | `Ctrl+Alt+B` |
 | Start window drag | `Ctrl+Alt+D` |
 
+If `Shift` is required, it is shown explicitly in the hotkey (for example `Ctrl+Shift+R`).
+
 ## Install Paths
 
 ### BenjaminTerm Windows Distro (Primary)

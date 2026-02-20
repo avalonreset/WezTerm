@@ -7,11 +7,10 @@ smart copy/paste behavior, paste undo, font/theme cycling, borderless mode, pers
 click-to-focus Windows notifications when your coding tool asks for input.
 
 ```text
-████   █████  █   █    ███   ███   █   █  █████  █   █  █████  █████  ████   █   █
-█   █  █      ██  █     █   █   █  ██ ██    █    ██  █    █    █      █   █  ██ ██
-████   ████   █ █ █     █   █████  █ █ █    █    █ █ █    █    ████   ████   █ █ █
-█   █  █      █  ██  █  █   █   █  █   █    █    █  ██    █    █      █  █   █   █
-████   █████  █   █   ██    █   █  █   █  █████  █   █    █    █████  █   █  █   █
+   ___  _____  __   _____   __  ________  _______________  __  ___
+  / _ )/ __/ |/ /_ / / _ | /  |/  /  _/ |/ /_  __/ __/ _ \/  |/  /
+ / _  / _//    / // / __ |/ /|_/ // //    / / / / _// , _/ /|_/ /
+/____/___/_/|_/\___/_/ |_/_/  /_/___/_/|_/ /_/ /___/_/|_/_/  /_/
 ```
 
 ## Why BenjaminTerm
@@ -72,6 +71,8 @@ Full config docs: `extras/vibe/README.md`
 | Toggle borderless | `Ctrl+Alt+B` |
 | Start window drag | `Ctrl+Alt+D` |
 
+If `Shift` is required, it is shown explicitly in the hotkey (for example `Ctrl+Shift+R`).
+
 ## Install
 
 ### Windows (Primary)
@@ -106,8 +107,6 @@ BenjaminTerm is a custom distribution/fork built on top of WezTerm.
 - Upstream project: https://github.com/wez/wezterm
 - Upstream docs: https://wezterm.org/
 
-## Brand Icon
-
-<img src="assets/icon/terminal-readme-icon.png" alt="BenjaminTerm icon" width="164" />
+<img src="assets/icon/terminal-readme-icon.png" alt="BenjaminTerm BEN icon" width="176" />
 
 WezTerm is MIT licensed; see `LICENSE.md`.

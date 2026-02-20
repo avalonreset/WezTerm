@@ -458,23 +458,23 @@ local keys = {
   { key = 'mapped:Z', mods = 'CTRL|SHIFT', action = redo_paste },
 
   -- Reload config (Ctrl+Shift+R). Don't steal Ctrl+R: shells use it for history search.
-  { key = 'R', mods = 'CTRL|SHIFT', action = act.ReloadConfiguration },
+  { key = 'r', mods = 'CTRL|SHIFT', action = act.ReloadConfiguration },
 
   { key = '-', mods = 'CTRL', action = act.DecreaseFontSize },
   { key = '=', mods = 'CTRL', action = act.IncreaseFontSize },
   { key = '0', mods = 'CTRL', action = act.ResetFontSize },
 
-  { key = 'F', mods = 'CTRL', action = act.Search { CaseSensitiveString = '' } },
+  { key = 'f', mods = 'CTRL', action = act.Search { CaseSensitiveString = '' } },
 
   -- Theme cycling (no OS notifications).
-  { key = 'T', mods = 'CTRL|ALT', action = cycle_theme },
+  { key = 't', mods = 'CTRL|ALT', action = cycle_theme },
 
   -- Font cycling (no OS notifications).
-  { key = 'F', mods = 'CTRL|ALT', action = cycle_font },
+  { key = 'f', mods = 'CTRL|ALT', action = cycle_font },
 
   -- Borderless toggle (removes the title bar; keeps resizable border).
   {
-    key = 'B',
+    key = 'b',
     mods = 'CTRL|ALT',
     action = wezterm.action_callback(function(window, pane)
       local overrides = window:get_config_overrides() or {}
