@@ -2,14 +2,14 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 ; vim:ts=2:sw=2:et:
 
-#define MyAppName "WezTerm"
+#define MyAppName "BenjaminTerm"
 ;#define MyAppVersion "1.5"
-#define MyAppPublisher "Wez Furlong"
-#define MyAppURL "http://wezterm.org"
+#define MyAppPublisher "BenjaminTerm Contributors"
+#define MyAppURL "https://github.com/avalonreset/BenjaminTerm"
 #define MyAppExeName "wezterm-gui.exe"
 
 [Setup]
-AppId={{BCF6F0DA-5B9A-408D-8562-F680AE6E1EAF}
+AppId={{9756A36E-1CE2-4B7A-BBB1-C5F73A625336}
 ArchitecturesAllowed=x64 arm64
 ArchitecturesInstallIn64BitMode=x64 arm64
 AppName={#MyAppName}
@@ -26,7 +26,7 @@ DisableProgramGroupPage=yes
 ;PrivilegesRequired=lowest
 ;PrivilegesRequiredOverridesAllowed=dialog
 OutputDir=..
-OutputBaseFilename=WezTerm-Setup
+OutputBaseFilename=BenjaminTerm-Setup
 SetupIconFile=..\assets\windows\terminal.ico
 UninstallDisplayIcon={app}\{#MyAppExeName}
 Compression=lzma
@@ -57,22 +57,22 @@ Source: "..\target\release\strip-ansi-escapes.exe"; DestDir: "{app}"; Flags: ign
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
-Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; AppUserModelID: "org.wezfurlong.wezterm"
-Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon; AppUserModelID: "org.wezfurlong.wezterm"
+Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; AppUserModelID: "com.benjaminterm.terminal"
+Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon; AppUserModelID: "com.benjaminterm.terminal"
 
 [Run]
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
 
 [Registry]
-Root: HKA; Subkey: "Software\Classes\Drive\shell\Open WezTerm here"; Flags: uninsdeletekey
-Root: HKA; Subkey: "Software\Classes\Drive\shell\Open WezTerm here"; ValueName: "icon"; ValueType: string; ValueData: "{app}\{#MyAppExeName}"; Flags: uninsdeletekey;
-Root: HKA; Subkey: "Software\Classes\Drive\shell\Open WezTerm here\command"; ValueType: string; ValueData: """{app}\{#MyAppExeName}"" start --no-auto-connect --cwd ""%V\"""; Flags: uninsdeletekey;
-Root: HKA; Subkey: "Software\Classes\Directory\Background\shell\Open WezTerm here"; Flags: uninsdeletekey
-Root: HKA; Subkey: "Software\Classes\Directory\Background\shell\Open WezTerm here"; ValueName: "icon"; ValueType: string; ValueData: "{app}\{#MyAppExeName}"; Flags: uninsdeletekey;
-Root: HKA; Subkey: "Software\Classes\Directory\Background\shell\Open WezTerm here\command"; ValueType: string; ValueData: """{app}\{#MyAppExeName}"" start --no-auto-connect --cwd ""%V"; Flags: uninsdeletekey;
-Root: HKA; Subkey: "Software\Classes\Directory\shell\Open WezTerm here"; Flags: uninsdeletekey
-Root: HKA; Subkey: "Software\Classes\Directory\shell\Open WezTerm here"; ValueName: "icon"; ValueType: string; ValueData: "{app}\{#MyAppExeName}"; Flags: uninsdeletekey;
-Root: HKA; Subkey: "Software\Classes\Directory\shell\Open WezTerm here\command"; ValueType: string; ValueData: """{app}\{#MyAppExeName}"" start --no-auto-connect --cwd ""%V\\"""; Flags: uninsdeletekey;
+Root: HKA; Subkey: "Software\Classes\Drive\shell\Open BenjaminTerm here"; Flags: uninsdeletekey
+Root: HKA; Subkey: "Software\Classes\Drive\shell\Open BenjaminTerm here"; ValueName: "icon"; ValueType: string; ValueData: "{app}\{#MyAppExeName}"; Flags: uninsdeletekey;
+Root: HKA; Subkey: "Software\Classes\Drive\shell\Open BenjaminTerm here\command"; ValueType: string; ValueData: """{app}\{#MyAppExeName}"" start --no-auto-connect --cwd ""%V\"""; Flags: uninsdeletekey;
+Root: HKA; Subkey: "Software\Classes\Directory\Background\shell\Open BenjaminTerm here"; Flags: uninsdeletekey
+Root: HKA; Subkey: "Software\Classes\Directory\Background\shell\Open BenjaminTerm here"; ValueName: "icon"; ValueType: string; ValueData: "{app}\{#MyAppExeName}"; Flags: uninsdeletekey;
+Root: HKA; Subkey: "Software\Classes\Directory\Background\shell\Open BenjaminTerm here\command"; ValueType: string; ValueData: """{app}\{#MyAppExeName}"" start --no-auto-connect --cwd ""%V"; Flags: uninsdeletekey;
+Root: HKA; Subkey: "Software\Classes\Directory\shell\Open BenjaminTerm here"; Flags: uninsdeletekey
+Root: HKA; Subkey: "Software\Classes\Directory\shell\Open BenjaminTerm here"; ValueName: "icon"; ValueType: string; ValueData: "{app}\{#MyAppExeName}"; Flags: uninsdeletekey;
+Root: HKA; Subkey: "Software\Classes\Directory\shell\Open BenjaminTerm here\command"; ValueType: string; ValueData: """{app}\{#MyAppExeName}"" start --no-auto-connect --cwd ""%V\\"""; Flags: uninsdeletekey;
 
 [Code]
 { https://stackoverflow.com/a/46609047/149111 }
