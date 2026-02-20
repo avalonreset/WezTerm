@@ -107,6 +107,6 @@ BenjaminTerm is a custom distribution/fork built on top of WezTerm.
 - Upstream project: https://github.com/wez/wezterm
 - Upstream docs: https://wezterm.org/
 
-![BENJAMINTERM](assets/icon/ben-logo.jpg)
+<img src="assets/icon/ben-logo.jpg" alt="BENJAMINTERM" width="360" />
 
 WezTerm is MIT licensed; see `LICENSE.md`.
