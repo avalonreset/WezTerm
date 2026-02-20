@@ -431,11 +431,19 @@ impl Screen {
         let resize_preserves_scrollback = is_conpty;
 
         if resize_preserves_scrollback {
-            new_cursor_y = cursor
+            let mut adjusted_new_cursor_y = cursor
                 .y
                 .saturating_add(cursor_y as i64)
                 .saturating_sub(cursor_phys as i64)
                 .max(0);
+
+            // For ConPTY on the primary screen, prioritize history safety:
+            // widening after a narrow resize should not pull the active area
+            // back up into previously rendered content.
+            if self.allow_scrollback && physical_cols > self.physical_cols {
+                adjusted_new_cursor_y = adjusted_new_cursor_y.max(cursor.y);
+            }
+            new_cursor_y = adjusted_new_cursor_y;
 
             // We need to ensure that the bottom of the screen has sufficient lines;
             // we use simple subtraction of physical_rows from the bottom of the lines
