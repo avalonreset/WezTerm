@@ -1035,8 +1035,7 @@ fn test_resize_wrap_conpty_no_reflow() {
         &["111", "2222", "aa", "333", "", "", "", ""],
     );
 
-    // ConPTY wrapped-line metadata can be unreliable, so avoid reflowing
-    // scrollback content on width changes.
+    // ConPTY reflows visible viewport content on width changes.
     term.resize(TerminalSize {
         rows: LINES,
         cols: 5,
@@ -1046,7 +1045,7 @@ fn test_resize_wrap_conpty_no_reflow() {
         &term,
         file!(),
         line!(),
-        &["111", "2222", "aa", "333", "", "", "", ""],
+        &["111", "2222a", "a", "333", "", "", "", ""],
     );
 
     term.resize(TerminalSize {
@@ -1058,7 +1057,7 @@ fn test_resize_wrap_conpty_no_reflow() {
         &term,
         file!(),
         line!(),
-        &["111", "2222", "aa", "333", "", "", "", ""],
+        &["111", "2222aa", "333", "", "", "", "", ""],
     );
 }
 
