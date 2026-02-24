@@ -1205,11 +1205,17 @@ local keys = {
 }
 
 -- Clipboard paste keybindings:
--- Keep these as plain clipboard paste so clipboard-based tools remain reliable.
+-- Windows:
+-- - Ctrl+V: smart paste (text normally; screenshot image clipboard is forwarded
+--   to image-aware apps like Codex/Gemini/Claude).
+-- - Ctrl+Shift+V: guaranteed plain clipboard paste fallback.
 if is_windows then
-  table.insert(keys, 2, { key = 'v', mods = 'CTRL', action = act.PasteFrom 'Clipboard' })
-  table.insert(keys, 3, { key = 'V', mods = 'CTRL|SHIFT', action = act.PasteFrom 'Clipboard' })
-  table.insert(keys, 4, { key = 'v', mods = 'CTRL|SHIFT', action = act.PasteFrom 'Clipboard' })
+  table.insert(keys, 2, { key = 'v', mods = 'CTRL', action = smart_paste })
+  table.insert(keys, 3, { key = 'mapped:v', mods = 'CTRL', action = smart_paste })
+  table.insert(keys, 4, { key = 'V', mods = 'CTRL|SHIFT', action = act.PasteFrom 'Clipboard' })
+  table.insert(keys, 5, { key = 'v', mods = 'CTRL|SHIFT', action = act.PasteFrom 'Clipboard' })
+  table.insert(keys, 6, { key = 'mapped:V', mods = 'CTRL|SHIFT', action = act.PasteFrom 'Clipboard' })
+  table.insert(keys, 7, { key = 'mapped:v', mods = 'CTRL|SHIFT', action = act.PasteFrom 'Clipboard' })
 else
   table.insert(keys, 2, { key = 'V', mods = 'CTRL|SHIFT', action = act.PasteFrom 'Clipboard' })
   table.insert(keys, 3, { key = 'v', mods = 'CTRL|SHIFT', action = act.PasteFrom 'Clipboard' })
@@ -1218,7 +1224,11 @@ else
 end
 
 -- Compatibility binding used by many clipboard helpers on Windows terminals.
-table.insert(keys, { key = 'Insert', mods = 'SHIFT', action = act.PasteFrom 'Clipboard' })
+if is_windows then
+  table.insert(keys, { key = 'Insert', mods = 'SHIFT', action = smart_paste })
+else
+  table.insert(keys, { key = 'Insert', mods = 'SHIFT', action = act.PasteFrom 'Clipboard' })
+end
 
 local config = {
   enable_tab_bar = false,
