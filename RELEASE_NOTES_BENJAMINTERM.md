@@ -27,8 +27,8 @@ This release includes:
   - Selection present: copy + clear selection
   - No selection: pass through true interrupt
 - Smart paste:
-  - Windows: `Ctrl+V`
-  - Linux/macOS: `Ctrl+Shift+V`
+  - Windows: plain `Ctrl+V` clipboard paste (`Shift+Insert` compatibility added)
+  - Linux/macOS: plain `Ctrl+Shift+V`
 - Paste undo/redo:
   - Undo: `Ctrl+Z`
   - Redo: `Ctrl+Shift+Z` (best effort)
@@ -37,6 +37,17 @@ This release includes:
 - Borderless toggle: `Ctrl+Alt+B`
 - Window drag assist in borderless mode: `Ctrl+Alt+D`
 - Config reload: `Ctrl+Shift+R`
+
+## Theme System Update
+
+- Shuffle-bag theme rotation:
+  - No repeats until the current bag is exhausted.
+  - Bag reshuffles for the next pass.
+- Curated random pool:
+  - pure-black background schemes only,
+  - exact duplicate palettes removed,
+  - near-similar themes reduced with brighter palettes preferred,
+  - low-variety/plain palettes filtered out.
 
 ## New in This Version
 

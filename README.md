@@ -22,7 +22,7 @@ click-to-focus Windows notifications when your coding tool asks for input.
 - Primary target: Windows developer workflow.
 - Secondary target: Linux friend-ready bootstrap distro.
 - Sensible defaults out of the box:
-  - Color scheme: `Blue Matrix` with forced pure black background.
+  - Theme system: curated pure-black palette pool with shuffle-bag rotation (no repeats until bag exhaustion).
   - Font: `OCR A Extended` with robust fallbacks.
   - Shell (Windows): `pwsh.exe`.
 - Minimal UI:
@@ -35,17 +35,22 @@ click-to-focus Windows notifications when your coding tool asks for input.
   - If text is selected, copy it and clear selection.
   - If not selected, pass through real `Ctrl+C` (interrupt behavior).
 - Smart paste:
-  - Windows: `Ctrl+V`.
-  - Linux/macOS: `Ctrl+Shift+V`.
+  - Windows: plain `Ctrl+V` clipboard paste (plus `Shift+Insert` compatibility).
+  - Linux/macOS: plain `Ctrl+Shift+V` clipboard paste.
 - Paste undo/redo:
   - `Ctrl+Z` undo recent paste.
   - `Ctrl+Shift+Z` redo (best effort).
 - Fast visual tuning:
-  - `Ctrl+Alt+Shift+T` cycle color themes.
-  - `Ctrl+Alt+Shift+F` cycle fonts.
+  - `Ctrl+Alt+T` cycle color themes.
+  - `Ctrl+Alt+F` cycle fonts.
+  - Theme randomization uses a shuffle bag over a curated 86-theme pool:
+    - pure black backgrounds only,
+    - exact duplicate palettes removed,
+    - near-similar palettes reduced (brighter options preferred),
+    - low-variety/plain palettes removed.
 - Borderless “black glass” mode:
-  - `Ctrl+Alt+Shift+B` toggle title bar.
-  - `Ctrl+Alt+Shift+D` drag window when borderless.
+  - `Ctrl+Alt+B` toggle title bar.
+  - `Ctrl+Alt+D` drag window when borderless.
 - Notification workflow boost:
   - Windows toast click now focuses the exact terminal pane/tab/window that raised it.
 - Resize stability tuning:
@@ -64,20 +69,20 @@ Full config docs: `extras/vibe/README.md`
 |---|---|
 | Smart copy / pass-through interrupt | `Ctrl+C` |
 | Force pass-through interrupt | `Ctrl+Alt+C` |
-| Smart paste (Windows) | `Ctrl+V` |
+| Paste (Windows) | `Ctrl+V` |
 | Plain paste (Windows) | `Ctrl+Shift+V` |
-| Smart paste (Linux/macOS) | `Ctrl+Shift+V` |
+| Paste (Windows compatibility) | `Shift+Insert` |
+| Paste (Linux/macOS) | `Ctrl+Shift+V` |
 | Plain paste (Linux/macOS) | `Alt+V` |
 | Paste undo | `Ctrl+Z` |
 | Paste redo | `Ctrl+Shift+Z` |
 | Reload config | `Ctrl+Shift+R` |
 | Search | `Ctrl+F` |
 | Font size down/up/reset | `Ctrl+-` / `Ctrl+=` / `Ctrl+0` |
-| Cycle theme | `Ctrl+Alt+Shift+T` |
-| Cycle font | `Ctrl+Alt+Shift+F` |
-| Toggle borderless | `Ctrl+Alt+Shift+B` |
-| Start window drag | `Ctrl+Alt+Shift+D` |
-Theme/font/borderless/drag hotkeys are Shift-required.
+| Cycle theme | `Ctrl+Alt+T` |
+| Cycle font | `Ctrl+Alt+F` |
+| Toggle borderless | `Ctrl+Alt+B` |
+| Start window drag | `Ctrl+Alt+D` |
 
 ## Install
 
